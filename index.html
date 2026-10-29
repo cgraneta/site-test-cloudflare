@@ -1,41 +1,762 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101827">
-  <meta name="description" content="Page de test pour apprendre à publier un site sur Cloudflare.">
-  <title>Mon premier site — Test Cloudflare</title>
-  <style>
-    :root { color-scheme: dark; font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
-    * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: radial-gradient(circle at 20% 10%, #20365a 0, transparent 42%), #101827; color: #f7f9ff; }
-    main { width: min(100%, 660px); padding: clamp(28px, 6vw, 54px); border: 1px solid #3d4b62; border-radius: 24px; background: #182439; box-shadow: 0 20px 60px #0005; }
-    .eyebrow { display: inline-block; color: #9be6ce; font-size: .8rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
-    h1 { margin: 18px 0; font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1.1; letter-spacing: -.04em; }
-    p { color: #c7d1e1; font-size: 1.08rem; line-height: 1.7; }
-    .status { display: flex; align-items: center; gap: 10px; margin: 28px 0; padding: 14px 18px; border-radius: 12px; background: #153d35; color: #b9f6dc; font-weight: 650; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; background: #5af2b3; }
-    button { cursor: pointer; border: 0; border-radius: 12px; padding: 13px 20px; font: inherit; font-weight: 700; background: #9be6ce; color: #10261f; }
-    button:hover { background: #c4f8e7; }
-    #message { min-height: 1.5em; margin-top: 14px; font-size: .95rem; }
-    footer { margin-top: 28px; color: #98a9bf; font-size: .85rem; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charles Granet — Product Manager Consultant en transformation Digitale</title>
+<meta name="description" content="Charles Granet, Product Manager Consultant en transformation Digitale. Refonte de SI, digitalisation de processus, conduite du changement, structuration Agile, rationalisation applicative.">
+<meta name="author" content="Charles Granet">
+<!-- Open Graph / réseaux sociaux — remplacer og:image / twitter:image par une image hébergée une fois le site en ligne -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Charles Granet — Product Manager Consultant en transformation Digitale">
+<meta property="og:description" content="Refonte de SI, digitalisation de processus, conduite du changement, structuration Agile, rationalisation applicative. Des transformations mesurables.">
+<meta property="og:image" content="og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Charles Granet — Product Manager Consultant en transformation Digitale">
+<meta name="twitter:description" content="Refonte de SI, digitalisation de processus, conduite du changement, structuration Agile, rationalisation applicative.">
+<meta name="twitter:image" content="og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0f12;
+    --bg-rgb: 10,15,18;
+    --bg-elevated: #10171b;
+    --bg-card: #121a1f;
+    --border: #1f2b31;
+    --text: #eef3f5;
+    --text-dim: #9fb0b7;
+    --text-faint: #64767d;
+    --accent: #5eead4;
+    --accent-contrast: #04211d;
+    --accent-dim: #2f6f68;
+    --accent-soft: rgba(94,234,212,0.08);
+    --radius: 14px;
+    --maxw: 1080px;
+  }
+  html[data-theme="light"]{
+    --bg: #f6f8f9;
+    --bg-rgb: 246,248,249;
+    --bg-elevated: #ffffff;
+    --bg-card: #ffffff;
+    --border: #e1e7ea;
+    --text: #0e1518;
+    --text-dim: #46565d;
+    --text-faint: #7c8b92;
+    --accent: #0d9488;
+    --accent-contrast: #ffffff;
+    --accent-dim: #99d8cf;
+    --accent-soft: rgba(13,148,136,0.08);
+  }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background .25s ease, color .25s ease;
+  }
+  h1,h2,h3,.brand{
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+  }
+  a{ color: inherit; text-decoration: none; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+  /* Header */
+  header{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(var(--bg-rgb), 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    transition: background .25s ease;
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 0;
+  }
+  .brand{ font-weight:700; font-size: 1.05rem; }
+  .brand span{ color: var(--accent); }
+  .nav-links{ display:flex; align-items:center; gap: 32px; }
+  .nav-links a{ color: var(--text-dim); font-size: 0.94rem; font-weight:500; transition: color .2s; }
+  .nav-links a:hover{ color: var(--text); }
+  .nav-cta{
+    background: var(--accent); color: var(--accent-contrast) !important; padding: 10px 20px;
+    border-radius: 999px; font-weight:600; font-size:0.9rem;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .nav-cta:hover{ transform: translateY(-1px); box-shadow: 0 8px 20px -8px var(--accent); }
+  .menu-toggle{ display:none; background:none; border:none; color:var(--text); font-size:1.6rem; cursor:pointer; }
+
+  /* Hero */
+  .hero{ padding: 110px 0 90px; position:relative; overflow:hidden; }
+  .hero::before{
+    content:""; position:absolute; top:-200px; right:-150px; width:520px; height:520px;
+    background: radial-gradient(circle, var(--accent-soft), transparent 70%);
+    pointer-events:none;
+    animation: floatBlob 10s ease-in-out infinite alternate;
+  }
+  @keyframes floatBlob{
+    from{ transform: translate(0,0) scale(1); }
+    to{ transform: translate(-40px, 30px) scale(1.08); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero::before{ animation: none; }
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    color: var(--accent); font-size:0.82rem; font-weight:600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--accent-soft); border:1px solid var(--accent-dim);
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 28px;
+  }
+  .hero h1{
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 700; margin: 0 0 22px; max-width: 780px;
+  }
+  .hero p.lede{
+    color: var(--text-dim); font-size: 1.15rem; max-width: 620px; margin: 0 0 40px;
+  }
+  .hero-actions{ display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    padding: 14px 26px; border-radius: 999px; font-weight:600; font-size:0.95rem;
+    display:inline-flex; align-items:center; gap:8px; transition: all .2s ease;
+    border: 1px solid transparent; cursor:pointer;
+  }
+  .btn-primary{ background: var(--accent); color: var(--accent-contrast); }
+  .btn-primary[disabled]{ opacity:0.55; cursor:not-allowed; pointer-events:none; }
+  .theme-toggle{
+    display:inline-flex; align-items:center; padding:0; border:none; background:none; cursor:pointer;
+  }
+  .theme-toggle-track{
+    position:relative; width:56px; height:30px; border-radius:999px;
+    background: var(--bg-elevated); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 0 7px; transition: border-color .2s;
+  }
+  .theme-toggle:hover .theme-toggle-track{ border-color: var(--accent-dim); }
+  .theme-toggle-track svg{
+    width:14px; height:14px; position:relative; z-index:1;
+    stroke: var(--text-faint); transition: stroke .2s;
+  }
+  .theme-toggle-track .icon-moon{ stroke: var(--text); }
+  html[data-theme="light"] .theme-toggle-track .icon-moon{ stroke: var(--text-faint); }
+  html[data-theme="light"] .theme-toggle-track .icon-sun{ stroke: var(--text); }
+  .theme-toggle-thumb{
+    position:absolute; top:2px; left:2px; width:24px; height:24px; border-radius:50%;
+    background: var(--accent); transition: transform .25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  html[data-theme="light"] .theme-toggle-thumb{ transform: translateX(26px); }
+  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 10px 24px -10px var(--accent); }
+  .btn-ghost{ border-color: var(--border); color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--accent-dim); color: var(--accent); }
+
+  /* Section headers */
+  section{ padding: 90px 0; border-top: 1px solid var(--border); }
+  .section-head{ margin-bottom: 52px; max-width: 640px; }
+  .section-tag{ color: var(--accent); font-weight:600; font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase; }
+  .section-head h2{ font-size: clamp(1.7rem, 3vw, 2.3rem); margin: 12px 0 14px; }
+  .section-head p{ color: var(--text-dim); font-size: 1.02rem; }
+
+  /* Projects */
+  .projects{ display:grid; grid-template-columns: 1fr; gap:20px; }
+  @media (min-width: 900px){
+    .projects{ grid-template-columns: repeat(2, 1fr); align-items:start; }
+  }
+  .project-card{
+    background: var(--bg-card); border:1px solid var(--border); border-radius: var(--radius);
+    padding: 32px; display:flex; flex-direction:column; gap: 16px; height:100%;
+    opacity:0; transform: translateY(16px); transition: opacity .5s ease, transform .15s ease, border-color .2s;
+  }
+  .project-card.visible{ opacity:1; transform:none; }
+  .project-card:hover{ border-color: var(--accent-dim); }
+  .project-top{ display:flex; align-items:center; gap: 10px; flex-wrap:wrap; }
+  .project-num{ color: var(--text-faint); font-family:'Space Grotesk',sans-serif; font-size:0.9rem; }
+  .project-client{
+    font-size: 0.78rem; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+    color: var(--accent); background: var(--accent-soft); border:1px solid var(--accent-dim);
+    padding:4px 12px; border-radius:999px; white-space:nowrap;
+  }
+  .project-tag{
+    font-size: 0.75rem; font-weight:500; color: var(--text-dim);
+    background: var(--bg-elevated); border:1px solid var(--border);
+    padding:4px 12px; border-radius:999px; white-space:nowrap;
+  }
+  .project-card h3{ font-size:1.35rem; margin: 4px 0 6px; }
+  .project-card > p.desc{ color: var(--text-dim); margin: 0 0 6px; max-width: 760px; }
+  .results{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 4px; }
+  .result-chip{
+    background: var(--bg-elevated); border:1px solid var(--border);
+    padding: 8px 14px; border-radius: 10px; font-size: 0.86rem; color: var(--text);
+  }
+  .result-chip strong{ color: var(--accent); }
+  .project-link{
+    display:inline-flex; align-items:center; gap:6px; margin-top: auto;
+    padding-top: 6px;
+    color: var(--accent); font-weight:600; font-size: 0.9rem; transition: gap .2s;
+    background:none; border:none; cursor:pointer; font-family:inherit; text-align:left;
+  }
+  .project-link:hover{ gap: 10px; }
+
+  /* Modale "Étude de cas" */
+  .modal-overlay{
+    position:fixed; inset:0; background: rgba(4,8,10,0.72);
+    display:none; align-items:center; justify-content:center;
+    padding: 24px; z-index: 100; backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal{
+    background: var(--bg-card); border:1px solid var(--border); border-radius: var(--radius);
+    max-width: 640px; width:100%; max-height: 85vh; overflow-y:auto;
+    padding: 40px; position:relative;
+    animation: modalIn .25s ease;
+  }
+  @keyframes modalIn{ from{ opacity:0; transform: translateY(12px) scale(.98);} to{ opacity:1; transform:none; } }
+  .modal-close{
+    position:absolute; top:20px; right:20px; width:36px; height:36px; border-radius:999px;
+    border:1px solid var(--border); background: var(--bg-elevated); color: var(--text);
+    font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .modal-close:hover{ border-color: var(--accent-dim); color: var(--accent); }
+  .modal .project-client{ margin-bottom: 14px; }
+  .modal h3{ font-size:1.5rem; margin: 0 0 18px; }
+  .modal h4{ font-size:0.8rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--accent); margin: 22px 0 8px; }
+  .modal p{ color: var(--text-dim); margin: 0; }
+  .modal .results{ margin-top:6px; }
+  .modal .btn{ margin-top: 26px; }
+
+  /* About */
+  .about-grid{ display:grid; grid-template-columns: 1fr; gap: 40px; align-items:start; }
+  .about-quote{
+    font-family:'Space Grotesk',sans-serif; font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+    line-height:1.5; font-weight:500; color: var(--text);
+    border-left: 3px solid var(--accent); padding-left: 26px;
+  }
+  .about-sub{ color: var(--text-dim); margin-top: 22px; max-width: 640px; }
+
+  /* Contact */
+  .contact-card{
+    background: linear-gradient(160deg, var(--bg-card), var(--bg-elevated));
+    border:1px solid var(--border); border-radius: var(--radius);
+    padding: 48px; display:flex; flex-direction:column; gap: 28px;
+  }
+  .contact-methods{ display:flex; flex-wrap:wrap; gap: 16px; }
+  .contact-method{
+    display:flex; align-items:center; gap:12px;
+    background: var(--bg-elevated); border:1px solid var(--border);
+    padding: 16px 20px; border-radius: 12px; flex: 1 1 220px;
+    transition: border-color .2s, transform .2s;
+  }
+  .contact-method:hover{ border-color: var(--accent-dim); transform: translateY(-2px); }
+  .contact-method .label{ font-size:0.78rem; color: var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; }
+  .contact-method .value{ font-weight:600; font-size:0.98rem; }
+
+  footer{ border-top: 1px solid var(--border); padding: 34px 0; }
+  footer .wrap{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  footer p{ color: var(--text-faint); font-size:0.86rem; margin:0; }
+  .footer-links{ display:flex; gap:20px; flex-wrap:wrap; }
+  .footer-links a{ color: var(--text-dim); font-size:0.86rem; transition: color .2s; }
+  .footer-links a:hover{ color: var(--accent); }
+
+  /* Interactions : progression, curseur, survol magnétique, confettis */
+  .progress-bar{
+    position:fixed; top:0; left:0; height:3px; width:0%;
+    background: var(--accent); z-index: 90; transition: width .1s linear;
+  }
+
+  .custom-cursor{
+    position:fixed; top:0; left:0; width:16px; height:16px; border-radius:50%;
+    background: var(--accent); pointer-events:none; z-index: 200;
+    transform: translate(-50%,-50%); opacity:0;
+    transition: width .2s ease, height .2s ease, opacity .2s ease, background .2s ease;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .custom-cursor.visible{ opacity: 0.9; }
+  .custom-cursor.active{
+    width:72px; height:72px; background: var(--accent);
+  }
+  .custom-cursor-label{
+    font-size:0.72rem; font-weight:700; color: var(--accent-contrast);
+    white-space:nowrap; opacity:0; transition: opacity .15s ease;
+  }
+  .custom-cursor.active .custom-cursor-label{ opacity:1; }
+  @media (hover: hover) and (pointer: fine){
+    body.has-custom-cursor, body.has-custom-cursor a, body.has-custom-cursor button{ cursor:none; }
+  }
+
+  .project-card{ will-change: transform; }
+
+  .confetti-piece{
+    position:fixed; top:0; left:0; width:8px; height:8px; pointer-events:none; z-index:300;
+    border-radius:2px; opacity:1;
+  }
+  @keyframes confettiFly{
+    to{ transform: translate(var(--cx), var(--cy)) rotate(var(--cr)); opacity:0; }
+  }
+
+  @media (min-width: 720px){
+    .about-grid{ grid-template-columns: 1.1fr 0.9fr; }
+  }
+
+  @media (max-width: 720px){
+    .nav-links{
+      position:fixed; top:64px; left:0; right:0; bottom:0;
+      background: var(--bg); flex-direction:column; align-items:flex-start;
+      padding: 32px 28px; gap: 24px; transform: translateX(100%);
+      transition: transform .25s ease; border-top:1px solid var(--border);
+    }
+    .nav-links.open{ transform: translateX(0); }
+    .menu-toggle{ display:block; }
+    .nav-cta{ margin-top: 8px; }
+    section{ padding: 64px 0; }
+    .hero{ padding: 76px 0 60px; }
+    .contact-card{ padding: 30px; }
+  }
+</style>
 </head>
 <body>
-  <main>
-    <span class="eyebrow">Projet 5 sites · Étape 2</span>
-    <h1>Mon premier site est en ligne !</h1>
-    <p>Cette page sert à apprendre à publier un site gratuitement. Elle ne contient aucune information personnelle.</p>
-    <div class="status"><span class="dot" aria-hidden="true"></span>Bienvenue sur Atelier Braise</div>
-    <button type="button" id="test-button">Tester le bouton</button>
-    <p id="message" role="status" aria-live="polite"></p>
-    <footer>Créé pour tester une première mise en ligne sur Cloudflare.</footer>
-  </main>
-  <script>
-    document.getElementById('test-button').addEventListener('click', function () {
-      document.getElementById('message').textContent = 'Le bouton fonctionne ! Prochaine étape : publier cette page.';
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="custom-cursor" id="customCursor"><span class="custom-cursor-label"></span></div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand">Charles Granet<span>.</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#realisations">Réalisations</a>
+      <a href="#apropos">À propos</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="nav-cta">Me contacter</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <button class="theme-toggle" id="themeToggle" role="switch" aria-checked="false" aria-label="Activer le mode clair" title="Changer de thème">
+        <span class="theme-toggle-track">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <span class="theme-toggle-thumb"></span>
+        </span>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" style="border-top:none; padding-top:110px;">
+    <div class="wrap">
+      <div class="eyebrow">Disponible pour de nouvelles missions</div>
+      <h1>Product Manager Consultant<br> en transformation Digitale</h1>
+      <p class="lede">Je traduis. Entre ce que le métier vit et ce que la technique construit, il y a toujours une langue à inventer — c'est mon terrain. Je crois qu'une transformation réussie commence par une question bien posée, pas par un outil bien choisi.</p>
+      <div class="hero-actions">
+        <a href="#realisations" class="btn btn-primary">Voir mes réalisations</a>
+        <a href="#contact" class="btn btn-ghost">Me contacter</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="realisations">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-tag">Réalisations</div>
+        <h2>Des transformations mesurables, pas des projets sur PowerPoint</h2>
+        <p>Cinq missions représentatives, du cadrage à la mise en production, avec des résultats vérifiables.</p>
+      </div>
+
+      <div class="projects">
+
+        <article class="project-card">
+          <div class="project-top">
+            <span class="project-num">01</span>
+            <span class="project-client">Solstice Assurances</span>
+            <span class="project-tag">Refonte SI</span>
+          </div>
+          <div>
+            <h3>Refonte d'un système d'information métier</h3>
+            <p class="desc">Mutuelle santé/prévoyance (~800 salariés). Refonte du référentiel contrats collectifs vers une architecture Produit / Contrat / Garantie unifiée.</p>
+            <div class="results">
+              <span class="result-chip"><strong>−40%</strong> temps de traitement des mises en place</span>
+              <span class="result-chip"><strong>3</strong> bases de données redondantes éliminées</span>
+              <span class="result-chip"><strong>14 mois</strong> · mise en production sans interruption</span>
+            </div>
+            <button class="project-link case-trigger" data-case="1">Voir l'étude de cas →</button>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top">
+            <span class="project-num">02</span>
+            <span class="project-client">Groupe Aravis Logistique</span>
+            <span class="project-tag">Digitalisation</span>
+          </div>
+          <div>
+            <h3>Digitalisation d'un processus métier papier/manuel</h3>
+            <p class="desc">Transport et entreposage. Digitalisation du processus de gestion des sinistres transport, auparavant géré via formulaires papier et fichiers Excel partagés.</p>
+            <div class="results">
+              <span class="result-chip"><strong>12 → 3 jours</strong> délai de traitement d'un sinistre</span>
+              <span class="result-chip"><strong>÷5</strong> taux d'erreur de saisie</span>
+              <span class="result-chip"><strong>95%</strong> adoption terrain en 2 mois</span>
+            </div>
+            <button class="project-link case-trigger" data-case="2">Voir l'étude de cas →</button>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top">
+            <span class="project-num">03</span>
+            <span class="project-client">Néréa Banque Privée</span>
+            <span class="project-tag">Conduite du changement</span>
+          </div>
+          <div>
+            <h3>Accompagnement au changement lors d'un déploiement d'outil</h3>
+            <p class="desc">Déploiement d'un nouveau CRM pour 200 conseillers patrimoniaux, avec dispositif de formation en cascade.</p>
+            <div class="results">
+              <span class="result-chip"><strong>88%</strong> adoption à 3 mois (vs 45% en moyenne)</span>
+              <span class="result-chip"><strong>−30%</strong> tickets support</span>
+            </div>
+            <button class="project-link case-trigger" data-case="3">Voir l'étude de cas →</button>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top">
+            <span class="project-num">04</span>
+            <span class="project-client">Vertio Énergie</span>
+            <span class="project-tag">Agile &amp; Product</span>
+          </div>
+          <div>
+            <h3>Cadrage et structuration d'un backlog Agile</h3>
+            <p class="desc">Fournisseur d'énergie B2B. Structuration du backlog pour une plateforme de gestion des contrats de fourniture d'énergie.</p>
+            <div class="results">
+              <span class="result-chip"><strong>12 epics</strong> · <strong>140 user stories</strong> en 6 semaines</span>
+              <span class="result-chip"><strong>+25%</strong> vélocité des équipes de développement</span>
+            </div>
+            <button class="project-link case-trigger" data-case="4">Voir l'étude de cas →</button>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top">
+            <span class="project-num">05</span>
+            <span class="project-client">Cimétis Industries</span>
+            <span class="project-tag">Audit &amp; Rationalisation</span>
+          </div>
+          <div>
+            <h3>Audit et rationalisation d'un patrimoine applicatif</h3>
+            <p class="desc">Groupe industriel post-fusion. Audit de 47 applications héritées de 3 entités fusionnées et plan de convergence.</p>
+            <div class="results">
+              <span class="result-chip"><strong>18</strong> applications redondantes à supprimer</span>
+              <span class="result-chip"><strong>1,2 M€/an</strong> d'économie projetée</span>
+              <span class="result-chip"><strong>24 mois</strong> · feuille de route validée en COMEX</span>
+            </div>
+            <button class="project-link case-trigger" data-case="5">Voir l'étude de cas →</button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" role="dialog" aria-modal="true" id="modalContent">
+      <button class="modal-close" id="modalClose" aria-label="Fermer">✕</button>
+      <!-- contenu injecté par le script -->
+    </div>
+  </div>
+
+  <section id="apropos">
+    <div class="wrap">
+      <div class="about-grid">
+        <div>
+          <div class="section-tag">À propos</div>
+          <p class="about-quote">« Je traduis. Entre ce que le métier vit et ce que la technique construit, il y a toujours une langue à inventer — c'est mon terrain. »</p>
+        </div>
+        <div>
+          <p class="about-sub">Je crois qu'une transformation réussie commence par une question bien posée, pas par un outil bien choisi. Mon rôle : faire le pont entre les équipes métier et les équipes techniques, cadrer juste, et livrer des transformations dont l'impact se mesure — pas seulement dont on parle.</p>
+          <p class="about-sub">Refonte de systèmes d'information, digitalisation de processus, conduite du changement, structuration Agile, rationalisation applicative : des sujets différents, une même méthode.</p>
+          <a href="cv-charles-granet.pdf" class="btn btn-ghost" style="margin-top:8px;" title="Fichier à ajouter : cv-charles-granet.pdf">Télécharger mon CV</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-tag">Contact</div>
+        <h2>Discutons de votre prochaine transformation</h2>
+        <p>Disponible pour des missions de conseil en transformation digitale, cadrage produit et accompagnement au changement.</p>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-methods">
+          <a class="contact-method" href="mailto:charles.granet@transitionconseil.fr">
+            <div>
+              <div class="label">Email</div>
+              <div class="value">charles.granet@transitionconseil.fr</div>
+            </div>
+          </a>
+          <a class="contact-method" href="tel:+33612345678">
+            <div>
+              <div class="label">Téléphone</div>
+              <div class="value">+33 6 12 34 56 78</div>
+            </div>
+          </a>
+          <a class="contact-method" href="https://www.linkedin.com/in/charles-granet-pm" target="_blank" rel="noopener">
+            <div>
+              <div class="label">LinkedIn</div>
+              <div class="value">/in/charles-granet-pm</div>
+            </div>
+          </a>
+        </div>
+        <a href="mailto:charles.granet@transitionconseil.fr" class="btn btn-primary confetti-trigger" style="align-self:flex-start;">Écrire un email</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© <span id="year"></span> Charles Granet — Product Manager Consultant en transformation Digitale · Basé en France</p>
+    <div class="footer-links">
+      <a href="mailto:charles.granet@transitionconseil.fr">Email</a>
+      <a href="https://www.linkedin.com/in/charles-granet-pm" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Bascule dark / light mode (état gardé en mémoire pour la session de navigation en cours)
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  let currentTheme = prefersLight ? 'light' : 'dark';
+
+  function applyTheme(theme){
+    currentTheme = theme;
+    if (theme === 'light') {
+      root.setAttribute('data-theme', 'light');
+      themeBtn.setAttribute('aria-checked', 'true');
+      themeBtn.setAttribute('aria-label', 'Passer en mode sombre');
+    } else {
+      root.removeAttribute('data-theme');
+      themeBtn.setAttribute('aria-checked', 'false');
+      themeBtn.setAttribute('aria-label', 'Passer en mode clair');
+    }
+  }
+  applyTheme(currentTheme);
+  themeBtn.addEventListener('click', () => applyTheme(currentTheme === 'light' ? 'dark' : 'light'));
+
+  const toggle = document.getElementById('menuToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  // Données des études de cas ("View case study")
+  const caseStudies = {
+    1: {
+      client: 'Solstice Assurances', tag: 'Refonte SI',
+      title: "Refonte d'un système d'information métier",
+      contexte: "Mutuelle santé/prévoyance d'environ 800 salariés, dont le référentiel de contrats collectifs reposait sur plusieurs bases de données redondantes et un modèle de données devenu illisible pour les équipes métier.",
+      approche: "Cadrage conjoint avec les équipes métier et IT d'une architecture unifiée Produit / Contrat / Garantie, puis pilotage d'une migration progressive pour ne jamais interrompre la gestion des contrats en cours.",
+      resultats: ['−40% temps de traitement des mises en place', '3 bases de données redondantes éliminées', '14 mois · mise en production sans interruption']
+    },
+    2: {
+      client: 'Groupe Aravis Logistique', tag: 'Digitalisation',
+      title: "Digitalisation d'un processus métier papier/manuel",
+      contexte: "Le traitement des sinistres transport reposait entièrement sur des formulaires papier et des fichiers Excel partagés entre les équipes terrain et le siège, source d'erreurs et de délais.",
+      approche: "Cartographie fine du processus existant avec les équipes terrain, conception d'un outil digital simple, puis déploiement accompagné d'un plan de formation de proximité.",
+      resultats: ["12 → 3 jours délai de traitement d'un sinistre", 'Taux d\'erreur de saisie divisé par 5', 'Adoption à 95% par les équipes terrain en 2 mois']
+    },
+    3: {
+      client: 'Néréa Banque Privée', tag: 'Conduite du changement',
+      title: "Accompagnement au changement lors d'un déploiement d'outil",
+      contexte: "Déploiement d'un nouveau CRM pour 200 conseillers patrimoniaux, dans un contexte où les précédents projets IT du groupe peinaient à être adoptés durablement.",
+      approche: "Mise en place d'un dispositif de formation en cascade porté par des ambassadeurs métier, avec un suivi actif de l'adoption et un support de proximité dans les premières semaines.",
+      resultats: ['88% adoption à 3 mois (vs 45% en moyenne)', '−30% tickets support']
+    },
+    4: {
+      client: 'Vertio Énergie', tag: 'Agile & Product',
+      title: "Cadrage et structuration d'un backlog Agile",
+      contexte: "Une plateforme de gestion des contrats de fourniture d'énergie B2B à concevoir, sans backlog structuré ni critères d'acceptation partagés entre équipes produit et développement.",
+      approche: "Animation d'ateliers de cadrage avec les parties prenantes métier, rédaction des epics et user stories, et clarification systématique des critères d'acceptation dès la conception.",
+      resultats: ['12 epics · 140 user stories livrés en 6 semaines', '+25% vélocité des équipes de développement']
+    },
+    5: {
+      client: 'Cimétis Industries', tag: 'Audit & Rationalisation',
+      title: "Audit et rationalisation d'un patrimoine applicatif",
+      contexte: "Groupe industriel né d'une fusion à 3 entités, héritant de 47 applications aux périmètres largement redondants et à la maintenance coûteuse.",
+      approche: "Audit complet du patrimoine applicatif, analyse des redondances fonctionnelles, puis construction d'un plan de convergence présenté et validé en COMEX.",
+      resultats: ['18 applications redondantes à supprimer', "1,2 M€/an d'économie projetée", '24 mois · feuille de route validée en COMEX']
+    }
+  };
+
+  const overlay = document.getElementById('modalOverlay');
+  const modalContent = document.getElementById('modalContent');
+  const modalClose = document.getElementById('modalClose');
+
+  function openCase(id){
+    const c = caseStudies[id];
+    if (!c) return;
+    modalContent.innerHTML = `
+      <button class="modal-close" id="modalClose2" aria-label="Fermer">✕</button>
+      <span class="project-client">${c.client}</span>
+      <h3>${c.title}</h3>
+      <h4>Contexte</h4>
+      <p>${c.contexte}</p>
+      <h4>Approche</h4>
+      <p>${c.approche}</p>
+      <h4>Résultats</h4>
+      <div class="results">${c.resultats.map(r => `<span class="result-chip">${r}</span>`).join('')}</div>
+      <a href="#contact" class="btn btn-primary" id="modalContactBtn">Discuter de ce projet</a>
+    `;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    modalContent.querySelector('#modalClose2').addEventListener('click', closeCase);
+    modalContent.querySelector('#modalContactBtn').addEventListener('click', closeCase);
+  }
+  function closeCase(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.case-trigger').forEach(btn => {
+    btn.addEventListener('click', () => openCase(btn.dataset.case));
+  });
+  modalClose.addEventListener('click', closeCase);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeCase(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCase(); });
+
+  // Compteurs animés : anime chaque nombre trouvé dans le texte d'un élément, en conservant le reste (%, mois, →, virgule décimale...)
+  function animateNumberElement(el){
+    if (!el || el.dataset.animated === '1') return;
+    el.dataset.animated = '1';
+    const original = el.textContent;
+    const regex = /\d+(?:[.,]\d+)?/g;
+    const matches = original.match(regex);
+    if (!matches) return;
+    const targets = matches.map(m => {
+      const hasComma = m.includes(',');
+      const normalized = m.replace(',', '.');
+      const value = parseFloat(normalized);
+      const decimals = normalized.includes('.') ? normalized.split('.')[1].length : 0;
+      return { value, decimals, hasComma };
     });
-  </script>
+    const duration = 1100;
+    const start = performance.now();
+    function frame(now){
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      let i = 0;
+      const newText = original.replace(regex, () => {
+        const tgt = targets[i++];
+        const current = tgt.value * eased;
+        let str = tgt.decimals > 0 ? current.toFixed(tgt.decimals) : Math.round(current).toString();
+        if (tgt.hasComma) str = str.replace('.', ',');
+        return str;
+      });
+      el.textContent = newText;
+      if (t < 1) requestAnimationFrame(frame); else el.textContent = original;
+    }
+    requestAnimationFrame(frame);
+  }
+
+  const cards = document.querySelectorAll('.project-card');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        const numEl = e.target.querySelector('.project-num');
+        if (numEl) animateNumberElement(numEl);
+        e.target.querySelectorAll('.result-chip strong').forEach(strongEl => {
+          setTimeout(() => animateNumberElement(strongEl), 150);
+        });
+      }
+    });
+  }, { threshold: 0.15 });
+  cards.forEach(c => io.observe(c));
+
+  // Indicateur de progression de lecture
+  const progressBar = document.getElementById('progressBar');
+  function updateProgress(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // Curseur personnalisé contextuel + survol magnétique (uniquement sur pointeur fin type souris)
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (finePointer) {
+    document.body.classList.add('has-custom-cursor');
+    const cursorEl = document.getElementById('customCursor');
+    const cursorLabel = cursorEl.querySelector('.custom-cursor-label');
+
+    window.addEventListener('mousemove', (e) => {
+      cursorEl.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+      cursorEl.classList.add('visible');
+    });
+    document.addEventListener('mouseleave', () => cursorEl.classList.remove('visible'));
+
+    function bindCursorLabel(selector, label){
+      document.querySelectorAll(selector).forEach(el => {
+        el.addEventListener('mouseenter', () => { cursorEl.classList.add('active'); cursorLabel.textContent = label; });
+        el.addEventListener('mouseleave', () => { cursorEl.classList.remove('active'); cursorLabel.textContent = ''; });
+      });
+    }
+    bindCursorLabel('.case-trigger', 'Voir →');
+    bindCursorLabel('.project-card', 'Explorer');
+    bindCursorLabel('.contact-method, .btn, .footer-links a', '');
+
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotateX = (-y / rect.height) * 6;
+        const rotateY = (x / rect.width) * 6;
+        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  }
+
+  // Confettis sur le bouton de contact principal
+  function burstConfetti(x, y){
+    const colors = ['#5eead4', '#0d9488', '#2f6f68', '#ffffff'];
+    for (let i = 0; i < 18; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      const angle = (Math.PI * 2 * i) / 18 + Math.random() * 0.4;
+      const distance = 60 + Math.random() * 70;
+      piece.style.setProperty('--cx', Math.cos(angle) * distance + 'px');
+      piece.style.setProperty('--cy', Math.sin(angle) * distance + 'px');
+      piece.style.setProperty('--cr', Math.random() * 360 + 'deg');
+      piece.style.left = x + 'px';
+      piece.style.top = y + 'px';
+      piece.style.background = colors[i % colors.length];
+      piece.style.animation = 'confettiFly .8s ease-out forwards';
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 850);
+    }
+  }
+  document.querySelectorAll('.confetti-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const rect = btn.getBoundingClientRect();
+      burstConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    });
+  });
+</script>
+
 </body>
 </html>
